@@ -1,0 +1,8 @@
+rRNA:
+ http://www.ncbi.nlm.nih.gov/refseq/targetedloci/
+	- 16S RefSeq Nucleotide sequence records
+	- 23S Refseq Nucleotide sequence records
+	- 5S Refseq Nucleotide sequence records
+
+
+wget -nd https://rrndb.umms.med.umich.edu/static/download/rrnDB-4.4.3.tsv.zip
