@@ -1,0 +1,5 @@
+This script is to calculate the normalized read count for the annotated hittable.
+
+Normalized read count for microbe 1 in sample 1 = ($ reads mapped to microbe 1 in sample 1)/ (number of human reads in sample 1 or library size of sample 1)*10^6
+
+
