@@ -1,0 +1,7 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------
+If you use this PathSeq version, please cite the following paper:
+----------------------------------------------------------------------------------------------------------------------------------------------------
+1. Pedamallu CS, Ojesina AI, Bullman S, and Meyerson M (2016).PathSeq2.0: A customizable computational tool for the discovery and identification of microbial sequences in deep sequenced metagenomic samples. Submitted for publication.
+
+In addition, you may also cite.
+1. Kostic AD, Ojesina AI, Pedamallu CS, Jung J, Verhaak RGW, Getz G, and Meyerson M (2011). PathSeq: software to identify or discover microbes by deep sequencing of human tissue. Nature Biotechnology, 29:393-396.

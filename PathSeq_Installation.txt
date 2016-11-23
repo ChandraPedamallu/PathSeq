@@ -1,0 +1,230 @@
+---------------------------------------------------------------------------------------------------------------------------------------------
+Pre-requistes for PathSeq are as follows:
+---------------------------------------------------------------------------------------------------------------------------------------------
+Developed: Chandra Sekhar Pedamallu 
+	   Meyerson Lab
+	   Dana-Farber Cancer Institute, Boston, MA; 
+	   The Broad Institute, Cambridge, MA; 
+	   Harvard Medical School, Boston, MA
+	   
+Cite: Pedamallu CS, Ojesina AI, Bullman S, and Meyerson M (2016).PathSeq2.0: A customizable computational tool for the discovery and identification of microbial sequences in deep sequenced metagenomic samples. Submitted for publication.
+---------------------------------------------------------------------------------------------------------------------------------------------
+**************************************************************************
+I) DEPENDENCIES FOR PATHSEQ
+**************************************************************************
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	1. AWK Language 
+	---------------------------------------------------------------------------------------------------------------------------------------------
+
+	% awk --version
+	GNU Awk 3.1.7
+	Copyright (C) 1989, 1991-2009 Free Software Foundation.
+
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see http://www.gnu.org/licenses/.
+
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	2. Java-1.7 package
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	%javac -version
+	javac 1.7.0_71 
+
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	3. Python-2.7.1 package
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	%python --version
+	Python 2.7.1 
+
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	4. BWA version 0.7.15 (https://sourceforge.net/projects/bio-bwa/files/bwa-0.7.12.tar.bz2/download)
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	%bwa 
+	Program: bwa (alignment via Burrows-Wheeler transformation)
+	Version: 0.7.15
+	Contact: Heng Li <lh3@sanger.ac.uk>
+
+	Usage:   bwa <command> [options]
+
+	Command: index         index sequences in the FASTA format
+		 mem           BWA-MEM algorithm
+		 fastmap       identify super-maximal exact matches
+		 pemerge       merge overlapping paired ends (EXPERIMENTAL)
+		 aln           gapped/ungapped alignment
+		 samse         generate alignment (single ended)
+		 sampe         generate alignment (paired ended)
+		 bwasw         BWA-SW for long queries
+
+		 shm           manage indices in shared memory
+		 fa2pac        convert FASTA to PAC format
+		 pac2bwt       generate BWT from PAC
+		 pac2bwtgen    alternative algorithm for generating BWT
+		 bwtupdate     update .bwt to the new format
+		 bwt2sa        generate SA from BWT and Occ
+
+	Note: To use BWA, you need to first index the genome with `bwa index'.
+	      There are three alignment algorithms in BWA: `mem', `bwasw', and
+	      `aln/samse/sampe'. If you are not sure which to use, try `bwa mem'
+	      first. Please `man ./bwa.1' for the manual.
+
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	5. BLAST version 2.2.30+ (ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.2.30/)
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	6. Repeatmasker-4.0.5 (http://www.repeatmasker.org/RMDownload.html)
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	7. Picard-1.26/Mergesamfiles.jar
+	---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+**************************************************************************
+II) DEPENDENCIES FOR ADDITIONAL TOOLS / Integration_Events
+**************************************************************************
+
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	1. Samblaster (https://github.com/GregoryFaust/samblaster)
+	---------------------------------------------------------------------------------------------------------------------------------------------
+	Written by: Greg Faust (gf4ea@virginia.edu)
+	Ira Hall Lab, University of Virginia
+
+	Please cite:
+	Faust, G.G. and Hall, I.M., “SAMBLASTER: fast duplicate marking and structural variant read extraction,” Bioinformatics Sept. 2014; 30(17): 2503-2505.
+
+	Also see: SAMBLASTER_Supplemental.pdf for additonal discussion and statistics about the duplicates marked by samblaster vs. Picard using the NA12878 sample dataset.
+	Click the preceeding link or download the file from this repository.
+
+	Current version: 0.1.22
+
+	Support for Linux and OSX (Version 10.7 or higher).
+	Summary
+
+	samblaster is a fast and flexible program for marking duplicates in read-id grouped1 paired-end SAM files. It can also optionally output discordant read pairs and/or split read mappings to separate SAM files, and/or unmapped/clipped reads to a separate FASTQ file. When marking duplicates, samblaster will require approximately 20MB of memory per 1M read pairs.
+	Installation
+
+	samblaster is self contained and therefore has no installation dependencies beyond g++ and make.
+
+	samblaster can be downloaded from the releases tab or manually downloaded via git clone. Afterwards, simply use make and copy samblaster to a directory in your path. For example:
+
+	git clone git://github.com/GregoryFaust/samblaster.git
+	cd samblaster
+	make
+	cp samblaster /usr/local/bin/.
+
+	Usage
+
+	See the SAM File Format Specification for details about the SAM alignment format.
+
+	By default, samblaster reads SAM input from stdin and writes SAM to stdout. Input SAM files usually contain paired end data (see Duplicate Identification below), must contain a sequence header, and must be read-id grouped1. By default, the output SAM file will contain all the alignments in the same order as the input, with duplicates marked with SAM FLAG 0x400. The --removeDups option will instead remove duplicate alignments from the output file.
+
+	1A read-id grouped SAM file is one in which all alignments for a read-id (QNAME) are grouped together in adjacent lines. Aligners naturally produce such files. They can also be created by sorting a SAM file by read-id. But as shown below, sorting the input to samblaster by read-id is not required if the alignments are already grouped.
+
+	COMMON USAGE SCENARIOS:
+
+	To take input alignments directly from bwa mem and output to samtools view to compress SAM to BAM:
+
+	bwa mem <idxbase> samp.r1.fq samp.r2.fq | samblaster | samtools view -Sb - > samp.out.bam
+
+	When using the bwa mem -M option, also use the samblaster -M option:
+
+	bwa mem -M <idxbase> samp.r1.fq samp.r2.fq | samblaster -M | samtools view -Sb - > samp.out.bam
+
+	To additionally output discordant read pairs and split read alignments:
+
+	bwa mem <idxbase> samp.r1.fq samp.r2.fq | samblaster -e -d samp.disc.sam -s samp.split.sam | samtools view -Sb - > samp.out.bam
+
+	To pull split reads and discordants read pairs from a pre-existing BAM file with duplicates already marked:
+
+	samtools view -h samp.bam | samblaster -a -e -d samp.disc.sam -s samp.split.sam -o /dev/null
+
+	OPTIONS: Default values enclosed in square brackets []
+
+	Input/Output Options:
+	-i --input           FILE Input sam file [stdin].
+	-o --output          FILE Output sam file for all input alignments [stdout].
+	-d --discordantFile  FILE Output discordant read pairs to this file. [no discordant file output]
+	-s --splitterFile    FILE Output split reads to this file abiding by paramaters below. [no splitter file output]
+	-u --unmappedFile    FILE Output unmapped/clipped reads as FASTQ to this file abiding by parameters below. [no unmapped file output].
+				  Requires soft clipping in input file.  Will output FASTQ if QUAL information available, otherwise FASTA.
+
+	Other Options:
+	-a --acceptDupMarks       Accept duplicate marks already in input file instead of looking for duplicates in the input.
+	-e --excludeDups          Exclude reads marked as duplicates from discordant, splitter, and/or unmapped file.
+	-r --removeDups           Remove duplicates reads from all output files. (Implies --excludeDups).
+	   --addMateTags          Add MC and MQ tags to all output paired-end SAM lines.
+	   --ignoreUnmated        Suppress abort on unmated alignments. Use only when sure input is read-id grouped and alignments have been filtered.
+				  --ignoreUnmated is not recommended for general use. It disables checks that detect incorrectly sorted input.
+	-M                        Compatibility mode (details below); both FLAG 0x100 and 0x800 denote supplemental (chimeric). Similar to bwa mem -M option.
+	   --maxSplitCount    INT Maximum number of split alignments for a read to be included in splitter file. [2]
+	   --maxUnmappedBases INT Maximum number of un-aligned bases between two alignments to be included in splitter file. [50]
+	   --minIndelSize     INT Minimum structural variant feature size for split alignments to be included in splitter file. [50]
+	   --minNonOverlap    INT Minimum non-overlaping base pairs between two alignments for a read to be included in splitter file. [20]
+	   --minClipSize      INT Minumum number of bases a mapped read must be clipped to be included in unmapped file. [20]
+
+	-h --help                 Print samblaster help to stderr.
+	-q --quiet                Output fewer statistics.
+	   --version              Print samblaster version number to stderr.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+2. LUMPY (https://github.com/arq5x/lumpy-sv)
+---------------------------------------------------------------------------------------------------------------------------------------------
+For questions and discussion about LUMPY please visit the forum at:
+
+https://groups.google.com/forum/#!forum/lumpy-discuss
+LUMPY
+
+A probabilistic framework for structural variant discovery.
+
+Ryan M Layer, Colby Chiang, Aaron R Quinlan, and Ira M Hall. 2014. "LUMPY: a Probabilistic Framework for Structural Variant Discovery." Genome Biology 15 (6): R84. doi:10.1186/gb-2014-15-6-r84.
+
+Quick start
+
+Download and install
+
+git clone --recursive https://github.com/arq5x/lumpy-sv.git
+cd lumpy-sv
+make
+cp bin/* /usr/local/bin/.
+
+Run LUMPY Express
+
+lumpyexpress \
+    -B my.bam \
+    -S my.splitters.bam \
+    -D my.discordants.bam \
+    -o output.vcf
+
+Installation
+Requirements
+
+    LUMPY
+        g++ compiler
+        CMake
+    LUMPY Express (optional)
+        Samtools (0.1.18+) (http://www.htslib.org/)
+        SAMBLASTER (0.1.19+) (https://github.com/GregoryFaust/samblaster)
+        Python 2.7 (https://www.python.org/) with pysam (0.8.3+) and NumPy (1.8.1+)
+
+Install
+
+git clone --recursive git@github.com:arq5x/lumpy-sv.git
+cd lumpy-sv
+make
+cp bin/* /usr/local/bin/.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+3. Bowtie2(https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.2.9/bowtie2-2.2.9-linux-x86_64.zip/download)
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+4. Tophat-2.1.1 (https://ccb.jhu.edu/software/tophat/downloads/tophat-2.1.1.Linux_x86_64.tar.gz)
+---------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,1 @@
+ls -l ./*/*/log.txt | awk '{ns=split($9, x, "/");print "cp "$9" "x[2]"_"x[3]"_"x[4];}'

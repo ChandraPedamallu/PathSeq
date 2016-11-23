@@ -1,0 +1,18 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Modified version of The MIT License (MIT)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+Copyright (c) 2016 PathSeq
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions. In addition, any person uses the PathSeq dependencies are subjected to those software License (Refer to individual softwares):
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+If you use this PathSeq version, please cite the following paper:
+----------------------------------------------------------------------------------------------------------------------------------------------------
+1. Pedamallu CS, Ojesina AI, Bullman S, and Meyerson M (2016).PathSeq2.0: A customizable computational tool for the discovery and identification of microbial sequences in deep sequenced metagenomic samples. Submitted for publication.
+
+In addition, you may also cite.
+1. Kostic AD, Ojesina AI, Pedamallu CS, Jung J, Verhaak RGW, Getz G, and Meyerson M (2011). PathSeq: software to identify or discover microbes by deep sequencing of human tissue. Nature Biotechnology, 29:393-396.
