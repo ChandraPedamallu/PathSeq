@@ -1,0 +1,1 @@
+Read_Name  Read_Length     Hit_numb        Subject_id      Mapped_Subject  Subject_Acession_Number Subject_Length  Bit_score       E-value HSP_hit_starts       HSP_hit_ends    HSP_Identity    HSP_alignlength Percentage_identity     Query_coverage  HSP_start       HSP_end AlignedSeq      FullQuery       Kingdom      SubjectName

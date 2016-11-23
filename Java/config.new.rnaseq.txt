@@ -1,0 +1,17 @@
+SCATTER:1000000:1:qsub -q long -l m_mem_free=8g
+BWA:/xchip/koch/latest_databases/latest/BWA/BWA1/BWA1.fa:Human Genome
+BWA:/xchip/koch/latest_databases/latest/BWA/BWA2/BWA2.fa:Human Genome
+GATHER
+SCATTER:50000:1:qsub -q long -l m_mem_free=8g
+REPEATMASKER
+MEGABLAST:/xchip/koch/latest_databases/latest/BLAST/BLAST1_2.0/Blast1.fasta:Human Genome
+MEGABLAST:/xchip/koch/latest_databases/latest/BLAST/BLAST2_2.0/Blast2.fasta:Human Genome
+GATHER
+SCATTER:NA:1:qsub -q long -l m_mem_free=8g
+VELVET:SINGLEEND:::
+GATHERASSEMBLER
+SCATTER:10000:1:qsub -q long -l m_mem_free=8g
+PREMEGABLAST:/xchip/koch/latest_databases/Teddy_databases/premega/Premeg1.fasta:Human Premegablast
+MEGABLAST:/xchip/koch/latest_databases/Aug152012/postsub/PHAGE/Phage_June142012.fna:PHAGE
+MEGABLAST:/xchip/koch/latest_databases/Aug152012/postsub/Human_AllPathogens/Human_allpathogens_june112012.fna:HUMAN+MICROBES
+FINISH
